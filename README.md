@@ -1,4 +1,7 @@
 # ConfigAt
+
+[![codecov](https://codecov.io/gh/Dog-Egg/configat/graph/badge.svg?token=GmvbsZ2dBW)](https://codecov.io/gh/Dog-Egg/configat)
+
 A simple recursive loader.
 
 Loader syntax: `@<loader_name>[-loader_name...]:<loader_variable>`

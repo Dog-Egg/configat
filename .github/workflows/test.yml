@@ -16,3 +16,7 @@ jobs:
           python-version: "3.8"
       - run: pip install tox
       - run: tox
+      - name: Upload results to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
