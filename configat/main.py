@@ -47,7 +47,7 @@ class ConfigAt:
                 raise ValueError(f"Loader {n!r} is not found")
         return [self.__loaders[n] for n in name.split("-")]
 
-    def resolve(self, expr: str, /, default=_missing):
+    def resolve(self, expr: str, /, default=_missing) -> typing.Any:
         try:
             return self.__resolve(expr, True)
         except NotFoundError:
