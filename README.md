@@ -6,6 +6,12 @@ A simple recursive loader.
 
 Loader syntax: `@<loader_name>[-loader_name...]:<loader_variable>`
 
+## Installation
+
+```sh
+pip install git+https://github.com/Dog-Egg/configat.git
+```
+
 ## Usage
 
 config.py
