@@ -3,6 +3,7 @@ from pathlib import Path
 
 import pytest
 import configat
+import configat.casting
 from configat.exceptions import NotFoundError
 from configat.main import default_configat
 
@@ -61,3 +62,16 @@ def test_file_loader():
 
 def test_json_loader():
     assert configat.resolve('@json:{"a": 1}') == {"a": 1}
+
+
+def test_cast():
+    os.environ["DEBUG"] = "0"
+    assert configat.resolve("@env:DEBUG", cast=configat.casting.boolean) is False
+
+    os.environ["DEBUG"] = "1"
+    assert configat.resolve("@env:DEBUG", cast=configat.casting.boolean) is True
+
+    os.environ["DEBUG"] = "xxx"
+    with pytest.raises(ValueError) as e:
+        assert configat.resolve("@env:DEBUG", cast=configat.casting.boolean)
+    assert e.value.args == ("Not a boolean value: 'xxx'",)

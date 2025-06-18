@@ -47,13 +47,22 @@ class ConfigAt:
                 raise ValueError(f"Loader {n!r} is not found")
         return [self.__loaders[n] for n in name.split("-")]
 
-    def resolve(self, expr: str, /, default=_missing) -> typing.Any:
+    def resolve(
+        self,
+        expr: str,
+        /,
+        default=_missing,
+        cast: typing.Callable[[typing.Any], typing.Any] | None = None,
+    ) -> typing.Any:
         try:
-            return self.__resolve(expr, True)
+            value = self.__resolve(expr, True)
         except NotFoundError:
             if default is _missing:
                 raise
             return default
+        if cast is not None:
+            return cast(value)
+        return value
 
 
 default_configat = ConfigAt()

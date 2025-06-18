@@ -46,3 +46,11 @@ my_secret_password
 * `file` - Load from a file.
 * `strip` - It is usually used together with other loaders, strip the whitespace characters on both sides of the content.
 * `json` - Load from a JSON string.
+
+## Type Casting
+
+```python
+import configat
+
+PORT = configat.resolve("@env:PORT", cast=int)
+```
