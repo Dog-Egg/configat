@@ -7,16 +7,33 @@ on:
   pull_request:
 
 jobs:
-  test:
+  unit-test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.8"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.8"
+          python-version: ${{ matrix.python-version }}
+          cache: "pip"
       - run: pip install tox
-      - run: tox
+      - run: tox -e py${{ matrix.python-version }}
       - name: Upload results to Codecov
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+  others:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        env: [typing]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+          cache: "pip"
+      - run: pip install tox
+      - run: tox -e ${{ matrix.env }}
