@@ -12,6 +12,9 @@ _AT_LOADER_EXPR_PATTERN = re.compile(r"^@(?P<name>.*?):(?P<variable>.+)$")
 
 _missing = object()
 
+T = typing.TypeVar("T")
+P = typing.TypeVar("P")
+
 
 class ConfigAt:
     def __init__(self):
@@ -47,13 +50,36 @@ class ConfigAt:
                 raise ValueError(f"Loader {n!r} is not found")
         return [self.__loaders[n] for n in name.split("-")]
 
+    @typing.overload
+    def resolve(self, expr: str, /) -> typing.Any: ...
+
+    @typing.overload
     def resolve(
         self,
         expr: str,
         /,
-        default=_missing,
-        cast: typing.Callable[[typing.Any], typing.Any] | None = None,
-    ) -> typing.Any:
+        default: T,
+    ) -> typing.Any | T: ...
+
+    @typing.overload
+    def resolve(
+        self,
+        expr: str,
+        /,
+        *,
+        cast: typing.Callable[[typing.Any], T],
+    ) -> T: ...
+
+    @typing.overload
+    def resolve(
+        self,
+        expr: str,
+        /,
+        default: T,
+        cast: typing.Callable[[typing.Any], P],
+    ) -> T | P: ...
+
+    def resolve(self, expr, /, default=_missing, cast=None):
         try:
             value = self.__resolve(expr, True)
         except NotFoundError:
