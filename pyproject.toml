@@ -8,3 +8,6 @@ version = "0.1.1"
 
 [tool.setuptools]
 packages = ["configat"]
+
+[tool.coverage.report]
+exclude_also = ["@typing.overload"]
