@@ -63,7 +63,7 @@ PORT = configat.resolve("@env:PORT", cast=int)
 ### Installation
 
 ```sh
-pip install "git+https://github.com/Dog-Egg/configat.git#egg=configat[parser]"
+pip install "configat[parser] @ git+https://github.com/Dog-Egg/configat.git"
 ```
 
 ### Usage
