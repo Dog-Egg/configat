@@ -1,3 +1,4 @@
+from inspect import cleandoc
 import os
 from pathlib import Path
 
@@ -75,3 +76,59 @@ def test_cast():
     with pytest.raises(ValueError) as e:
         assert configat.resolve("@env:DEBUG", cast=configat.casting.boolean)
     assert e.value.args == ("Not a boolean value: 'xxx'",)
+
+
+class TestParser:
+
+    def test_walk_python_files(self):
+        from configat.parser import walk_python_files
+
+        assert walk_python_files(".") == [
+            "./check_typing.py",
+            "./tests.py",
+            "./configat/loaders.py",
+            "./configat/__init__.py",
+            "./configat/casting.py",
+            "./configat/exceptions.py",
+            "./configat/main.py",
+            "./configat/parser/__init__.py",
+            "./configat/parser/__main__.py",
+        ]
+
+    def test_parse_code(self):
+        from configat.parser import parse_code
+
+        assert (
+            list(
+                parse_code(
+                    cleandoc(
+                        """
+                configat.resolve('@env:ENV_VARIABLE1')
+                VAR = configat.resolve('@env:ENV_VARIABLE2', help="help text")
+                configat.resolve('@env:ENV_VARIABLE3', default=1)
+                configat.not_existed('@env:ENV_VARIABLE3', default=1)
+                configat.resolve('@env:ENV_VARIABLE4', help=help_text) # help text is not a constant
+                configat.resolve(expr) # expr is not a constant
+                """
+                    )
+                )
+            )
+            == [
+                (
+                    "@env:ENV_VARIABLE1",
+                    "",
+                ),
+                (
+                    "@env:ENV_VARIABLE2",
+                    "help text",
+                ),
+                (
+                    "@env:ENV_VARIABLE3",
+                    "",
+                ),
+                (
+                    "@env:ENV_VARIABLE4",
+                    "",
+                ),
+            ]
+        )

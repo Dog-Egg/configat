@@ -51,7 +51,7 @@ class ConfigAt:
         return [self.__loaders[n] for n in name.split("-")]
 
     @typing.overload
-    def resolve(self, expr: str, /) -> typing.Any: ...
+    def resolve(self, expr: str, /, *, help: str | None = None) -> typing.Any: ...
 
     @typing.overload
     def resolve(
@@ -68,6 +68,7 @@ class ConfigAt:
         /,
         *,
         cast: typing.Callable[[typing.Any], T],
+        help: str | None = None,
     ) -> T: ...
 
     @typing.overload
@@ -77,9 +78,17 @@ class ConfigAt:
         /,
         default: T,
         cast: typing.Callable[[typing.Any], P],
+        help: str | None = None,
     ) -> T | P: ...
 
-    def resolve(self, expr, /, default=_missing, cast=None):
+    def resolve(
+        self,
+        expr,
+        /,
+        default=_missing,
+        cast=None,
+        help: str | None = None,
+    ):
         try:
             value = self.__resolve(expr, True)
         except NotFoundError:
