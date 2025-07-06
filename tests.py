@@ -85,14 +85,14 @@ class TestParser:
 
         assert walk_python_files(".") == [
             "./check_typing.py",
-            "./tests.py",
-            "./src/configat/loaders.py",
             "./src/configat/__init__.py",
             "./src/configat/casting.py",
             "./src/configat/exceptions.py",
+            "./src/configat/loaders.py",
             "./src/configat/main.py",
             "./src/configat/parser/__init__.py",
             "./src/configat/parser/__main__.py",
+            "./tests.py",
         ]
 
     def test_parse_code(self):

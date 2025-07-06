@@ -19,7 +19,7 @@ def walk_python_files(base_dir: str):
                 if spec.match_file(full_path):
                     continue
                 all_files.append(full_path)
-    return all_files
+    return sorted(all_files)
 
 
 def parse_code(code: str):
