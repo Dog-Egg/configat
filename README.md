@@ -56,18 +56,18 @@ PORT = configat.resolve("@env:PORT", cast=int)
 ```
 
 
-## Configat Parser
+## Configat Docgen
 
-`configat` provides a parser to extract the config expressions from the code. It is useful to generate documentation for the config.
+`configat` provides a document generator to extract the config expressions from the code. It is useful to generate documentation for the config.
 
 ### Installation
 
 ```sh
-pip install "configat[parser] @ git+https://github.com/Dog-Egg/configat.git"
+pip install "configat[docgen] @ git+https://github.com/Dog-Egg/configat.git"
 ```
 
 ### Usage
 
 ```sh
-python -m configat.parser .
+python -m configat.docgen .
 ```

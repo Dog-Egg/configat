@@ -7,7 +7,7 @@ name = "configat"
 version = "0.2.0"
 
 [project.optional-dependencies]
-parser = ["tabulate", "pathspec"]
+docgen = ["tabulate", "pathspec"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
