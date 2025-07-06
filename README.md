@@ -54,3 +54,20 @@ import configat
 
 PORT = configat.resolve("@env:PORT", cast=int)
 ```
+
+
+## Configat Parser
+
+`configat` provides a parser to extract the config expressions from the code. It is useful to generate documentation for the config.
+
+### Installation
+
+```sh
+pip install "git+https://github.com/Dog-Egg/configat.git#egg=configat[parser]"
+```
+
+### Usage
+
+```sh
+python -m configat.parser .
+```
