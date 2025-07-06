@@ -2,8 +2,7 @@ from __future__ import annotations
 
 import argparse
 import os
-from . import walk_python_files, parse_code
-from tabulate import tabulate
+from . import DocGenerator, walk_python_files
 
 
 parser = argparse.ArgumentParser(__package__)
@@ -17,9 +16,9 @@ if __name__ == "__main__":
     else:
         files = [dir_or_file]
 
-    data = []
+    docgen = DocGenerator()
     for file in files:
         with open(file, "r") as f:
             code = f.read()
-            data.extend(parse_code(code))
-    print(tabulate(data, headers=["Config", "Help"], tablefmt="github"))
+            docgen.parse_code(code)
+    print(docgen.output())
