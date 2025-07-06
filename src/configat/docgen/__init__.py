@@ -26,8 +26,6 @@ def parse_code(code: str):
     """使用抽象语法树，获取 configat.resolve() 中的参数"""
     import ast
 
-    results: list[tuple[str, Any]] = []
-
     for node in ast.walk(ast.parse(code)):
         if (
             isinstance(node, ast.Call)
@@ -40,13 +38,33 @@ def parse_code(code: str):
                 if len(args) >= 1 and isinstance(args[0], ast.Constant):
                     expr_value = args[0].value
 
+                has_default = False
+                if len(args) >= 2:
+                    has_default = True
+
                 help_value = ""
                 kwargs = node.keywords
                 for kw in kwargs:
                     if kw.arg == "help":
                         if isinstance(kw.value, ast.Constant):
                             help_value = kw.value.value
+                    if kw.arg == "default":
+                        has_default = True
 
                 if isinstance(expr_value, str):
-                    results.append((expr_value, help_value))
-    return results
+                    yield (expr_value, help_value, has_default)
+
+
+class DocGenerator:
+    def __init__(self) -> None:
+        self.tabledata: list[tuple[str, str, Any]] = []
+
+    def parse_code(self, code: str):
+        for expr, help, has_default in parse_code(code):
+            self.tabledata.append((expr, "No" if has_default else "Yes", help))
+
+    def output(self):
+        from tabulate import tabulate
+
+        data = sorted(self.tabledata, key=lambda x: (-ord(x[1][0]), x[0]))
+        return tabulate(data, headers=["Config", "Required", "Help"], tablefmt="github")

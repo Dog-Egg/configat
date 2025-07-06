@@ -117,18 +117,37 @@ class TestDocgen:
                 (
                     "@env:ENV_VARIABLE1",
                     "",
+                    False,
                 ),
-                (
-                    "@env:ENV_VARIABLE2",
-                    "help text",
-                ),
+                ("@env:ENV_VARIABLE2", "help text", False),
                 (
                     "@env:ENV_VARIABLE3",
                     "",
+                    True,
                 ),
-                (
-                    "@env:ENV_VARIABLE4",
-                    "",
-                ),
+                ("@env:ENV_VARIABLE4", "", False),
             ]
+        )
+
+    def test_DocGenerator(self):
+        from configat.docgen import DocGenerator
+
+        docgen = DocGenerator()
+        docgen.parse_code(
+            cleandoc(
+                """
+        configat.resolve('@env:VAR1', 1)
+        configat.resolve('@env:VAR3')
+        configat.resolve('@env:VAR2', help="help text")
+    """
+            )
+        )
+        assert docgen.output() == cleandoc(
+            """
+            | Config    | Required   | Help      |
+            |-----------|------------|-----------|
+            | @env:VAR2 | Yes        | help text |
+            | @env:VAR3 | Yes        |           |
+            | @env:VAR1 | No         |           |
+        """
         )

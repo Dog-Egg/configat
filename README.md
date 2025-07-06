@@ -71,3 +71,11 @@ pip install "configat[docgen] @ git+https://github.com/Dog-Egg/configat.git"
 ```sh
 python -m configat.docgen .
 ```
+
+Output Example: 
+
+| Config           | Required   | Help      |
+|------------------|------------|-----------|
+| @env:VAR1        | Yes        | help text |
+| @env:VAR2        | No         |           |
+| @file:/run/file  | Yes        |           |
