@@ -78,25 +78,25 @@ def test_cast():
     assert e.value.args == ("Not a boolean value: 'xxx'",)
 
 
-class TestParser:
+class TestDocgen:
 
     def test_walk_python_files(self):
-        from configat.parser import walk_python_files
+        from configat.docgen import walk_python_files
 
         assert walk_python_files(".") == [
             "./check_typing.py",
             "./src/configat/__init__.py",
             "./src/configat/casting.py",
+            "./src/configat/docgen/__init__.py",
+            "./src/configat/docgen/__main__.py",
             "./src/configat/exceptions.py",
             "./src/configat/loaders.py",
             "./src/configat/main.py",
-            "./src/configat/parser/__init__.py",
-            "./src/configat/parser/__main__.py",
             "./tests.py",
         ]
 
     def test_parse_code(self):
-        from configat.parser import parse_code
+        from configat.docgen import parse_code
 
         assert (
             list(
