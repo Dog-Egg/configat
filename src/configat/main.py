@@ -59,6 +59,8 @@ class ConfigAt:
         expr: str,
         /,
         default: T,
+        *,
+        help: str | None = None,
     ) -> typing.Any | T: ...
 
     @typing.overload
