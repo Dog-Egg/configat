@@ -146,8 +146,8 @@ class TestDocgen:
             """
             | Config    | Required   | Help      |
             |-----------|------------|-----------|
+            | @env:VAR1 | No         |           |
             | @env:VAR2 | Yes        | help text |
             | @env:VAR3 | Yes        |           |
-            | @env:VAR1 | No         |           |
         """
         )

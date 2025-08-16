@@ -57,7 +57,7 @@ def parse_code(code: str):
 
 class DocGenerator:
     def __init__(self) -> None:
-        self.tabledata: list[tuple[str, str, Any]] = []
+        self.tabledata: list[tuple[str, str, Any]] = []  # (expr, required, help)
 
     def parse_code(self, code: str):
         for expr, help, has_default in parse_code(code):
@@ -66,5 +66,5 @@ class DocGenerator:
     def output(self):
         from tabulate import tabulate
 
-        data = sorted(self.tabledata, key=lambda x: (-ord(x[1][0]), x[0]))
+        data = sorted(self.tabledata, key=lambda x: x[0])
         return tabulate(data, headers=["Config", "Required", "Help"], tablefmt="github")
