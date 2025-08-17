@@ -42,7 +42,7 @@ def parse_code(code: str):
                 if len(args) >= 2:
                     has_default = True
 
-                help_value = ""
+                help_value: Any = ""
                 kwargs = node.keywords
                 for kw in kwargs:
                     if kw.arg == "help":
