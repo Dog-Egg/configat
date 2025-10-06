@@ -1,3 +1,11 @@
+import warnings as _warnings
+
+_warnings.warn(
+    "This module is deprecated and will be removed in a future release.",
+    DeprecationWarning,
+    stacklevel=2,
+)
+
 _BOOL_VALUES = [
     ("True", "False"),
     ("true", "false"),
